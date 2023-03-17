@@ -1,3 +1,4 @@
+import Section from '../Section/Section';
 import { useDispatch } from "react-redux";
 import { register } from "redux/auth/operations";
 import {Form, Label, Input, Button} from './RegisterForm.styled';
@@ -7,7 +8,7 @@ export const RegisterForm = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        const form = e.currentTsrget;
+        const form = e.currentTarget;
         dispatch(
             register({
                 name: form.elements.name.value,
@@ -19,7 +20,8 @@ export const RegisterForm = () => {
     };
 
     return(
-        <Form onSubmit={handleSubmit} autoComplete="off">
+        <Section>
+            <Form onSubmit={handleSubmit} autoComplete="off">
             <Label>Username
                 <Input type="name" name="name"></Input>
             </Label>
@@ -31,5 +33,6 @@ export const RegisterForm = () => {
             </Label>
             <Button type="submit">Register</Button>
         </Form>
+        </Section>
     );
 };

@@ -1,9 +1,12 @@
-import { Container, Title } from './Home.styled';
+import { Container, Title, Text } from './Home.styled';
 
 export default function Home() {
-  return(
+  return (
     <Container>
-      <Title>Your Phonebook</Title>
+      <Title>
+        Welcome to the phone book!👋
+      </Title>
+      <Text>Come on! Hurry up and add a new phone number!✍</Text>
     </Container>
-  )
+  );
 }

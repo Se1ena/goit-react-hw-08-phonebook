@@ -24,14 +24,14 @@ export const Li = styled.li`
 
 export const Link = styled(NavLink)`
   text-decoration: none;
-  color: cornflowerblue;
+  color: #838383;
   text-transform: uppercase;
   font-weight: 500;
   &.active {
-    color: #7a3b2e;
+    color: rgba(0, 0, 255, 0.72);
   }
   :hover:not(.active),
   :focus-visible:not(.active) {
-    color: red;
+    color:  rgb(255, 228, 59);
   }
 `;

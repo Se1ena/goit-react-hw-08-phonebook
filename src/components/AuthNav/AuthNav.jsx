@@ -1,10 +1,10 @@
-import {Nav, Link} from './AuthNav.styled';
+import {Nav, LinkRegister, LinkLogin} from './AuthNav.styled';
 
 const AuthNav = () => {
     return (
         <Nav>
-            <Link to="/register">Register</Link> | 
-            <Link to="/login">Login</Link>
+            <LinkRegister to="/register">Register</LinkRegister>  
+            <LinkLogin to="/login">Login</LinkLogin>
         </Nav>
     )
 }
