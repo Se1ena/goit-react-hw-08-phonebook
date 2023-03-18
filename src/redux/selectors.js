@@ -11,6 +11,17 @@ export const selectError = state => state.contacts.error;
 export const selectFilteredContacts = createSelector(
   [selectContacts, selectFilter],
   (contacts, filter) => {
-    return contacts.filter(({ name }) => name.toLowerCase().includes(filter));
+    const normalizedFilter = filter.trim().toLowerCase();
+
+    const filteredContacts = contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+
+    const inAlphabeticalOrder = filteredContacts.sort(
+      (firstContact, secondContact) =>
+        firstContact.name.localeCompare(secondContact.name)
+    );
+
+    return inAlphabeticalOrder;
   }
 );

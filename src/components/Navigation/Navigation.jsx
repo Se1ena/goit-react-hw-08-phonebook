@@ -1,5 +1,5 @@
 import {useAuth} from '../../hooks';
-import Phonebook from '../../Pages/Phonebook/Phonebook';
+import Phonebook from '../../Pages/Phonebook';
 import {Nav, Ul, Li, Link } from './Navigation.styled';
 
 export const Navigation = () => {

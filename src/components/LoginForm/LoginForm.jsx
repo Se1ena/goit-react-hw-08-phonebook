@@ -1,36 +1,50 @@
 import { useDispatch } from 'react-redux';
 import { logIn } from 'redux/auth/operations';
-import Section from '../Section/Section';
-import { Form, Label, Input, Button } from './LoginForm.styled';
+import { Box, Flex, VStack } from '@chakra-ui/react';
+import { Formik } from 'formik';
+import { InputControl, SubmitButton } from 'formik-chakra-ui';
+import * as Yup from 'yup';
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    dispatch(
-      logIn({
-        email: form.elements.email.value,
-        password: form.elements.password.value,
-      })
-    );
-    form.reset();
+  const initialValues = {
+    email: '',
+    password: '',
   };
 
+  const onSubmit = values => dispatch(logIn(values));
+
+  const validationSchema = Yup.object({
+    email: Yup.string().email().required(),
+    password: Yup.string().required(),
+  });
+
   return (
-    <Section>
-      <Form onSubmit={handleSubmit} autoComplete="off">
-      <Label>
-        Email
-        <Input type="email" name="email"/>
-      </Label>
-      <Label>
-        Password
-        <Input type="password" name="password" />
-      </Label>
-      <Button type="submit">Log In</Button>
-    </Form>
-    </Section>
+    <Flex align="center" justify="center" h="100%" p={3}>
+      <Box p={6} rounded="md" w={80}>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
+        >
+          {({ handleSubmit, values, errors }) => (
+            <form onSubmit={handleSubmit}>
+              <VStack spacing={4} align="flex-start">
+                <InputControl name="email" label="Email" />
+                <InputControl
+                  name="password"
+                  label="Password"
+                  inputProps={{ type: 'password' }}
+                />
+                <SubmitButton colorScheme="gray" width="full">
+                  Login
+                </SubmitButton>
+              </VStack>
+            </form>
+          )}
+        </Formik>
+      </Box>
+    </Flex>
   );
 };

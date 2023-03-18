@@ -34,7 +34,7 @@ export const Input = styled.input`
   }
 `;
 
-export const Button = styled.button`
+export const SubmitButton = styled.button`
   padding: 4px 12px;
   display: inline-block;
   font-size: 16px;
