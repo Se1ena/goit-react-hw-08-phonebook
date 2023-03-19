@@ -1,26 +1,21 @@
-import {useAuth} from '../../hooks';
-import Phonebook from '../../Pages/Phonebook';
-import {Nav, Ul, Li, Link } from './Navigation.styled';
+import { NavLink } from 'react-router-dom';
+import { useAuth } from 'hooks';
+import { Box, Link } from '@chakra-ui/react';
 
 export const Navigation = () => {
-    const {isLoggedIn} = useAuth();
+  const { isLoggedIn } = useAuth();
+  const activeLinkStyle = { fontWeight: 'bold' };
 
-    return (
-        <Nav>
-          <Ul>
-            <Li>
-              <Link to="/" end>
-                Home
-              </Link>
-            </Li>
-            <Li>
-              {isLoggedIn && (
-                <Link to="/phonebook" element={<Phonebook />}>
-                  Phonebook
-                </Link>
-              )}
-            </Li>
-          </Ul>
-        </Nav>
-      );
-}
+  return (
+    <Box as="nav" display="flex" gap={3}>
+      <Link as={NavLink} to="/" _activeLink={activeLinkStyle}>
+        Home
+      </Link>
+      {isLoggedIn && (
+        <Link as={NavLink} to="/contacts" _activeLink={activeLinkStyle}>
+          Contacts
+        </Link>
+      )}
+    </Box>
+  );
+};

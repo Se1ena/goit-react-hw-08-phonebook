@@ -1,7 +1,7 @@
 import { useEffect, lazy } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
-import { Layout } from './Layout/Layout';
+import { Layout } from './Layout';
 import { PrivateRoute } from '../components/PrivateRoute';
 import { RestrictedRoute } from './RestrictedRoude';
 import { refreshUser } from 'redux/auth/operations';
@@ -15,7 +15,7 @@ const NotFoundPage = lazy(()=> import('../Pages/NotFound'));
 
 const App = () => {
   const dispatch = useDispatch();
-  const { isRefreshing } = useAuth;
+  const { isRefreshing } = useAuth();
 
   useEffect(() => {
     dispatch(refreshUser());

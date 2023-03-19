@@ -3,16 +3,16 @@ import {
   persistStore,
   persistReducer,
   FLUSH,
+  REHYDRATE,
   PAUSE,
   PERSIST,
   PURGE,
   REGISTER,
-  REHYDRATE,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { contactsReducer } from './contacts/contactsSlice';
+import { filtersReducer } from './fiters/filtersSlice';
 import { authReducer } from './auth/slice';
-import { contactsReducer } from './contactsSlice';
-import { filtersReducer } from './filtersSlice';
 
 const middleware = [
   ...getDefaultMiddleware({

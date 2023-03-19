@@ -1,12 +1,12 @@
 import {Helmet } from 'react-helmet-async';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectLoading } from '../redux/selectors';
-import { fetchContacts } from 'redux/operations';
+import { selectLoading } from '../redux/contacts/selectors';
+import { fetchContacts } from 'redux/contacts/operations';
 import ContactForm from '../components/ContactForm/ContactForm';
 import ContactList from '../components/ContactList/ContactList';
 import Filter from '../components/Filter/Filter';
-import {selectFilteredContacts} from '../redux/selectors';
+import {selectVisibleContacts} from '../redux/contacts/selectors';
 import {
   Card,
   CardHeader,
@@ -20,7 +20,7 @@ import {
 export default function Phonebook() {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectLoading);
-  const contacts = useSelector(selectFilteredContacts);
+  const contacts = useSelector(selectVisibleContacts);
 
   useEffect(() => {
     dispatch(fetchContacts());
