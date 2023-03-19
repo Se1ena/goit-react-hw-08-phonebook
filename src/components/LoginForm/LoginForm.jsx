@@ -37,7 +37,7 @@ export const LoginForm = () => {
                   label="Password"
                   inputProps={{ type: 'password' }}
                 />
-                <SubmitButton colorScheme="purple" width="full">
+                <SubmitButton colorScheme="gray" width="full">
                   Login
                 </SubmitButton>
               </VStack>

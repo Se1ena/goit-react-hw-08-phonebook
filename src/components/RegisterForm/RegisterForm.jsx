@@ -42,7 +42,7 @@ export const RegisterForm = () => {
                   label="Password"
                   inputProps={{ type: 'password' }}
                 />
-                <SubmitButton colorScheme="purple" width="full">
+                <SubmitButton colorScheme="gray" width="full">
                   Signup
                 </SubmitButton>
               </VStack>
