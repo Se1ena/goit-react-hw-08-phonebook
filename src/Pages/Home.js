@@ -1,11 +1,10 @@
 import { Helmet } from 'react-helmet-async';
-import { Flex, Box, Heading, Text, Button } from '@chakra-ui/react';
-import { NavLink } from 'react-router-dom';
-import { selectIsLoggedIn } from 'redux/auth/selectors';
-import { useSelector } from 'react-redux';
+import { Flex, Box, Heading, Text } from '@chakra-ui/react';
+
+
 
 export default function Home() {
-  const isLoggedIn = useSelector(selectIsLoggedIn);
+ 
 
   return (
     <>
@@ -15,32 +14,8 @@ export default function Home() {
 
       <Flex align="center" justify="center" h="100%" p={3}>
         <Box maxW="32rem" m="20px auto">
-          <Heading mb={4}>Welcome to Phonebook! 👋</Heading>
-          <Text fontSize="xl">Come on! Hurry up and add a new phone number!✍</Text>
-
-          {!isLoggedIn && (
-            <Button
-              as={NavLink}
-              to="/register"
-              size="lg"
-              colorScheme="purple"
-              mt="24px"
-            >
-              Create a free account
-            </Button>
-          )}
-
-          {isLoggedIn && (
-            <Button
-              as={NavLink}
-              to="/contacts"
-              size="lg"
-              colorScheme="purple"
-              mt="24px"
-            >
-              Manage your contacts
-            </Button>
-          )}
+          <Heading mb={4} >Welcome to Phonebook! 👋</Heading>
+          <Text fontSize="l">Come on! Hurry up and add a new phone number!✍</Text>
         </Box>
       </Flex>
     </>

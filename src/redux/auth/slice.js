@@ -17,7 +17,7 @@ const handleAuthFulfilled = (state, action) => {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  extraReduserc: builder => {
+  extraReducers: builder => {
     builder
       .addCase(register.fulfilled, handleAuthFulfilled)
       .addCase(logIn.fulfilled, handleAuthFulfilled)

@@ -77,7 +77,7 @@ const ContactForm = () => {
               label="Number"
               inputProps={{ type: 'tel' }}
             />
-            <SubmitButton colorScheme="purple" width="full">
+            <SubmitButton colorScheme="gray" width="full">
               Add contact
             </SubmitButton>
           </VStack>
