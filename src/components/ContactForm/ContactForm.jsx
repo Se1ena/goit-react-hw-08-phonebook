@@ -1,94 +1,90 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from '../../redux/contacts/operations';
-import { selectContacts } from '../../redux/contacts/selectors';
-import { Form, Btn, Label } from 'components/ContactForm/ContactForm.styled';
+import { addContact } from 'redux/contacts/operations';
+import { selectContacts } from 'redux/contacts/selectors';
+import { VStack, useToast } from '@chakra-ui/react';
+import { Formik } from 'formik';
+import { InputControl, SubmitButton } from 'formik-chakra-ui';
+import * as Yup from 'yup';
 
 const ContactForm = () => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-
   const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
+  const toast = useToast();
 
-  const handleInputChange = e => {
-    switch (e.target.name) {
-      case 'name':
-        setName(e.target.value);
-        break;
-      case 'number':
-        setNumber(e.target.value);
-        break;
-      default:
-        console.log(`Error in ${e.target.name}`);
+  const initialValues = {
+    name: '',
+    number: '',
+  };
+
+  const checkIsInContacts = newName =>
+    contacts.some(
+      ({ name }) => name.toLowerCase() === newName.toLowerCase().trim()
+    );
+
+  const onSubmit = async (values, { resetForm }) => {
+    const { name } = values;
+    const isInContacts = checkIsInContacts(name);
+
+    // don't add new contact when the name already exists
+    if (isInContacts) {
+      toast({
+        title: 'Failed to create new contact.',
+        description: `"${name}" is already in your contacts.`,
+        status: 'warning',
+        isClosable: true,
+        position: 'bottom-right',
+      });
+      return false;
+    }
+
+    const { meta: res } = await dispatch(addContact(values));
+    const isSuccess = res.requestStatus === 'fulfilled';
+
+    if (isSuccess) {
+      resetForm();
     }
   };
 
-  const addNewContact = (name, number) => {
-    if(checkDoubleContact(name)) {
-      alert(`${name} is already in your contacts!`);
-      return;
-    }
-    const newContact = {
-      name,
-      phone: number,
-    };
-    dispatch(addContact(newContact));
-  }
-
-  const checkDoubleContact = (name) => {
-    return contacts.find(contact => contact.name === name);
-  };
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    addNewContact(name, number);
-    setName('');
-    setNumber('');
-  }
+  const validationSchema = Yup.object({
+    name: Yup.string()
+      .trim()
+      .matches(
+        /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
+        "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+      )
+      .required(),
+    number: Yup.string()
+      .trim()
+      .matches(
+        /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
+        'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
+      )
+      .required(),
+  });
 
   return (
-    <Form onSubmit={handleFormSubmit}>
-      <Label>
-        <div>Name</div>
-        <input
-        value={name}
-        onChange={handleInputChange}
-          name="name"
-          type="text"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required={true}
-          placeholder="Enter name"
-        />
-      </Label>
-      <Label>
-        <div>Number</div>
-        <input
-        value={number}
-        onChange={handleInputChange}
-          type="tel"
-          name="number"
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          required={true}
-          placeholder="Enter phone number"
-        />
-      </Label>
-      <Btn type="submit">Add contact</Btn>
-    </Form>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+    >
+      {({ handleSubmit, values, errors }) => (
+        <form onSubmit={handleSubmit}>
+          <VStack spacing={4} align="flex-start">
+            <InputControl name="name" label="Name" />
+            <InputControl
+              name="number"
+              label="Number"
+              inputProps={{ type: 'tel' }}
+            />
+            <SubmitButton colorScheme="purple" width="full">
+              Add contact
+            </SubmitButton>
+          </VStack>
+        </form>
+      )}
+    </Formik>
   );
-};
-
-ContactForm.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ),
 };
 
 export default ContactForm;

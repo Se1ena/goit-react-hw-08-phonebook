@@ -12,7 +12,7 @@ export const LoginForm = () => {
     email: '',
     password: '',
   };
-
+  
   const onSubmit = values => dispatch(logIn(values));
 
   const validationSchema = Yup.object({
